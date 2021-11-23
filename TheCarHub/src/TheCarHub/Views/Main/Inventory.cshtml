@@ -1,0 +1,37 @@
+﻿@model TheCarHub.Models.Main.InventoryViewModel
+@{
+    ViewBag.Title = "Inventory";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Scan Our Inventory</h1>
+    <p>Have a look at everything on our lot (and what's coming soon)</p>
+</div>
+<table>
+    <thead>
+        <tr>
+            <td>Year</td>
+            <td>Make</td>
+            <td>Model</td>
+            <td>Trim</td>
+            <td>Price</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model!.Cars)
+        {
+            <tr>
+                <td>@car.Year</td>
+                <td>@car.Make</td>
+                <td>@car.Model</td>
+                <td>@car.Trim</td>
+                <td>@car.PurchasePrice.ToString("C")</td>
+                @if (!car.LotDate.HasValue)
+                {
+                    <td>Coming soon&hellip;</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
