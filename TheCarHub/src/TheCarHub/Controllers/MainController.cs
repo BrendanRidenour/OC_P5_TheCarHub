@@ -7,10 +7,17 @@ namespace TheCarHub.Controllers
 {
     public class MainController : Controller
     {
-        [HttpGet(Routes.Inventory)]
-        public async Task<IActionResult> Inventory([FromServices]IDealershipService dealership)
+        private readonly IDealershipService _dealershipService;
+
+        public MainController(IDealershipService dealershipService)
         {
-            var inventory = await dealership.GetInventory();
+            this._dealershipService = dealershipService ?? throw new ArgumentNullException(nameof(dealershipService));
+        }
+
+        [HttpGet(Routes.Inventory)]
+        public async Task<IActionResult> Inventory()
+        {
+            var inventory = await this._dealershipService.GetInventory();
 
             return View(new InventoryViewModel(inventory));
         }

@@ -1,0 +1,53 @@
+﻿@model TheCarHub.Models.Admin.InventoryViewModel
+@{
+    ViewBag.Title = "Inventory";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Admin Inventory</h1>
+    <p>Use this portal to create and update the cars in your dealership</p>
+</div>
+<table>
+    <thead>
+        <tr>
+            <td>VIN</td>
+            <td>Year</td>
+            <td>Make</td>
+            <td>Model</td>
+            <td>Trim</td>
+            <td>Purchase Date</td>
+            <td>Purchase Price</td>
+            <td>Repairs</td>
+            <td>Repair Cost</td>
+            <td>Lot Date</td>
+            <td>Sale Date</td>
+            <td>Selling Price</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model!.Cars)
+        {
+            <tr>
+                <td>@car.Vin</td>
+                <td>@car.Year</td>
+                <td>@car.Make</td>
+                <td>@car.Model</td>
+                <td>@car.Trim</td>
+                <td>@car.PurchaseDate.ToString("MMM d, yyyy")</td>
+                <td>@car.PurchasePrice.ToString("C")</td>
+                <td>@car.Repairs</td>
+                <td>@car.RepairCost.ToString("C")</td>
+                <td>@car.LotDate?.ToString("MMM d, yyyy")</td>
+                <td>@car.SaleDate?.ToString("MMM d, yyyy")</td>
+                <td>@car.SellingPrice.ToString("C")</td>
+                <td>
+                    <a href="~/admin/update/@car.Id">Update</a>
+                </td>
+                <td>
+                    <a href="~/admin/delete/@car.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

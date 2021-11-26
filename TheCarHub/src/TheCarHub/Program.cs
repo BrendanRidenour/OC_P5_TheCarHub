@@ -2,12 +2,27 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using TheCarHub;
 using TheCarHub.Controllers;
+using Cookies = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<ISystemClock, SystemClock>();
-builder.Services.AddTransient<IDealershipService, DevDealershipService>();
-builder.Services.AddTransient<IValidator<CarPoco>, CarPocoValidator>();
+builder.Services.AddHttpContextAccessor()
+    .AddTransient<ISystemClock, SystemClock>()
+    .AddTransient<IValidator<CarPoco>, CarPocoValidator>()
+    .AddTransient<IAuthenticationService, CookieAuthenticationService>()
+    .AddTransient<ICarRepository, InMemoryCarRepository>()
+    .AddTransient<IDealershipService, DealershipService>()
+    .AddTransient<IAdminService, AdminService>();
+
+builder.Services.AddAuthentication(auth =>
+{
+    auth.DefaultAuthenticateScheme = Cookies.AuthenticationScheme;
+    auth.DefaultChallengeScheme = Cookies.AuthenticationScheme;
+}).AddCookie(Cookies.AuthenticationScheme, cookie =>
+{
+    cookie.LoginPath = AdminController.Routes.Login;
+});
+
 builder.Services.AddControllersWithViews()
     .AddFluentValidation();
 

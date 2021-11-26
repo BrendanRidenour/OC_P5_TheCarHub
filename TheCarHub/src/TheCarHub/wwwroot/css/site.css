@@ -17,6 +17,10 @@ body {
   margin-bottom: 60px;
 }
 
+#logout-button {
+    margin: .25rem 1rem .25rem .5rem;
+}
+
 table {
     margin: 4rem 0;
 }
@@ -26,5 +30,5 @@ table thead {
 }
 
 table td {
-    padding-right: 4rem;
+    padding-right: 1rem;
 }

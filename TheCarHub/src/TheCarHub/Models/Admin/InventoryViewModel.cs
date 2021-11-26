@@ -1,4 +1,4 @@
-﻿namespace TheCarHub.Models.Main
+﻿namespace TheCarHub.Models.Admin
 {
     public class InventoryViewModel
     {
@@ -7,8 +7,7 @@
         public InventoryViewModel(IReadOnlyList<ICar> inventory)
         {
             this.Cars = (inventory ?? new List<ICar>())
-                .Where(car => !car.SaleDate.HasValue)
-                .OrderByDescending(car => car.LotDate)
+                .OrderByDescending(car => car.PurchaseDate)
                 .ToList()
                 .AsReadOnly();
         }

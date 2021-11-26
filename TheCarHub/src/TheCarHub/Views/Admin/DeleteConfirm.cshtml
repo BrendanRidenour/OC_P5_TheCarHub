@@ -1,0 +1,73 @@
+﻿@model TheCarHub.ICar
+@{
+    ViewBag.Title = "Confirm Delete";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+    <p>Are you sure you want to permanently delete this car?</p>
+</div>
+<form method="post" asp-controller="Admin" asp-action="Delete" asp-antiforgery="true">
+    <input type="hidden" name="@nameof(Model.Id)" value="@Model!.Id" />
+    @if (!string.IsNullOrWhiteSpace(Model.Vin))
+    {
+        <p>
+            <label asp-for="Vin">VIN:</label><br />
+            <input asp-for="Vin" disabled />
+        </p>
+    }
+    <p>
+        <label asp-for="Year">Year:</label><br />
+        <input asp-for="Year" disabled />
+    </p>
+    <p>
+        <label asp-for="Make">Make:</label><br />
+        <input asp-for="Make" disabled />
+    </p>
+    <p>
+        <label asp-for="Model">Model:</label><br />
+        <input asp-for="Model" disabled />
+    </p>
+    <p>
+        <label asp-for="Trim">Trim:</label><br />
+        <input asp-for="Trim" disabled />
+    </p>
+    <p>
+        <label asp-for="PurchaseDate">Purchase Date:</label><br />
+        <input asp-for="PurchaseDate" disabled />
+    </p>
+    <p>
+        <label asp-for="PurchasePrice">Purchase Price:</label><br />
+        <input asp-for="PurchasePrice" disabled />
+    </p>
+    @if (!string.IsNullOrWhiteSpace(Model.Repairs))
+    {
+        <p>
+            <label asp-for="Repairs">Repairs:</label><br />
+            <input asp-for="Repairs" disabled />
+        </p>
+    }
+    <p>
+        <label asp-for="RepairCost">Repair Cost:</label><br />
+        <input asp-for="RepairCost" disabled />
+    </p>
+    @if (Model.LotDate.HasValue)
+    {
+        <p>
+            <label asp-for="LotDate">Lot Date:</label><br />
+            <input asp-for="LotDate" disabled />
+        </p>
+    }
+    @if (Model.SaleDate.HasValue)
+    {
+        <p>
+            <label asp-for="SaleDate">Sale Date:</label><br />
+            <input asp-for="SaleDate" disabled />
+        </p>
+    }
+    <p>
+        <label asp-for="SellingPrice">Selling Price:</label><br />
+        <input asp-for="SellingPrice" disabled />
+    </p>
+    <input type="submit" value="Delete Car" />
+</form>
