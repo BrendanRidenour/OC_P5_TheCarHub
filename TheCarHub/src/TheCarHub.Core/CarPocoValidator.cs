@@ -45,7 +45,7 @@ namespace TheCarHub
 
                     if (date.Value < context.InstanceToValidate.LotDate)
                     {
-                        context.AddFailure("The Lot Date cannot come before the Purchase Date.");
+                        context.AddFailure("The Sale Date cannot come before the Lot Date.");
                     }
                 });
         }

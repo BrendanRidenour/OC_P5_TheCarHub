@@ -7,7 +7,7 @@
     <h1 class="display-4">@ViewBag.Title</h1>
     <p>Are you sure you want to permanently delete this car?</p>
 </div>
-<form method="post" asp-controller="Admin" asp-action="Delete" asp-antiforgery="true">
+<form method="post" asp-controller="Admin" asp-action="DeleteCar" asp-antiforgery="true">
     <input type="hidden" name="@nameof(Model.Id)" value="@Model!.Id" />
     @if (!string.IsNullOrWhiteSpace(Model.Vin))
     {

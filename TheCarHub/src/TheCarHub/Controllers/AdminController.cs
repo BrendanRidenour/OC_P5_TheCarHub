@@ -51,11 +51,11 @@ namespace TheCarHub.Controllers
             return View(new InventoryViewModel(inventory));
         }
 
-        [HttpGet(Routes.Create)]
-        public IActionResult Create() => View(new CarPoco());
+        [HttpGet(Routes.CreateCar)]
+        public IActionResult CreateCar() => View(new CarPoco());
 
-        [HttpPost(Routes.Create)]
-        public async Task<IActionResult> Create(CarPoco car)
+        [HttpPost(Routes.CreateCar)]
+        public async Task<IActionResult> CreateCar(CarPoco car)
         {
             if (!ModelState.IsValid)
                 return View(car);
@@ -65,16 +65,16 @@ namespace TheCarHub.Controllers
             return Redirect(Routes.Inventory);
         }
 
-        [HttpGet(Routes.Update)]
-        public async Task<IActionResult> Update([FromRoute]Guid id)
+        [HttpGet(Routes.UpdateCar)]
+        public async Task<IActionResult> UpdateCar([FromRoute]Guid id)
         {
             var car = await this._adminService.GetCar(id);
 
             return car != null ? View(car) : Redirect(Routes.Inventory);
         }
 
-        [HttpPost(Routes.Update)]
-        public async Task<IActionResult> Update([FromRoute]Guid id,
+        [HttpPost(Routes.UpdateCar)]
+        public async Task<IActionResult> UpdateCar([FromRoute]Guid id,
             [FromForm]CarPoco car)
         {
             if (!ModelState.IsValid)
@@ -87,16 +87,16 @@ namespace TheCarHub.Controllers
             return Redirect(Routes.Inventory);
         }
 
-        [HttpGet(Routes.DeleteConfirm)]
-        public async Task<IActionResult> DeleteConfirm([FromRoute]Guid id)
+        [HttpGet(Routes.DeleteCarConfirm)]
+        public async Task<IActionResult> DeleteCarConfirm([FromRoute]Guid id)
         {
             var car = await this._adminService.GetCar(id);
 
             return car != null ? View(car) : Redirect(Routes.Inventory);
         }
 
-        [HttpPost(Routes.Delete)]
-        public async Task<IActionResult> Delete([FromForm]Guid id)
+        [HttpPost(Routes.DeleteCar)]
+        public async Task<IActionResult> DeleteCar([FromForm]Guid id)
         {
             await this._adminService.DeleteCar(id);
 
@@ -108,10 +108,10 @@ namespace TheCarHub.Controllers
             public const string Login = "/admin/login";
             public const string Logout = "/admin/logout";
             public const string Inventory = "/admin";
-            public const string Create = "/admin/add";
-            public const string Update = "/admin/update/{id}";
-            public const string DeleteConfirm = "/admin/delete/{id}";
-            public const string Delete = "/admin/delete";
+            public const string CreateCar = "/admin/add";
+            public const string UpdateCar = "/admin/update/{id}";
+            public const string DeleteCarConfirm = "/admin/delete/{id}";
+            public const string DeleteCar = "/admin/delete";
         }
     }
 }

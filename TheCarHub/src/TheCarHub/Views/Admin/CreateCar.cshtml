@@ -1,0 +1,83 @@
+﻿@model TheCarHub.ICar
+@inject TheCarHub.ISystemClock Clock
+@{
+    ViewBag.Title = "Create Car";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+    <p>Add a new car purchase to the dealership's inventory</p>
+</div>
+<form method="post" asp-antiforgery="true">
+    <input type="hidden" name="@nameof(Model.Id)" value="@Model!.Id" />
+    <p>
+        <label asp-for="Vin">VIN:</label><br />
+        <input asp-for="Vin" /><br />
+        <span asp-validation-for="Vin"></span>
+    </p>
+    <p>
+        <label asp-for="Year">Year:</label><br />
+        <select asp-for="Year">
+            @for (var year = 1990; year <= Clock.UtcNow.Year; year++)
+            {
+                <option value="@year">@year</option>
+            }
+        </select><br />
+        <span asp-validation-for="Year"></span>
+    </p>
+    <p>
+        <label asp-for="Make">Make:</label><br />
+        <input asp-for="Make" /><br />
+        <span asp-validation-for="Make"></span>
+    </p>
+    <p>
+        <label asp-for="Model">Model:</label><br />
+        <input asp-for="Model" /><br />
+        <span asp-validation-for="Model"></span>
+    </p>
+    <p>
+        <label asp-for="Trim">Trim:</label><br />
+        <input asp-for="Trim" /><br />
+        <span asp-validation-for="Trim"></span>
+    </p>
+    <p>
+        <label asp-for="PurchaseDate">Purchase Date:</label><br />
+        <input asp-for="PurchaseDate" class="datepicker" value="@Model.PurchaseDate.ToString("yyyy/MM/dd")" /><br />
+        <span asp-validation-for="PurchaseDate"></span>
+    </p>
+    <p>
+        <label asp-for="PurchasePrice">Purchase Price:</label><br />
+        <input asp-for="PurchasePrice" /><br />
+        <span asp-validation-for="PurchasePrice"></span>
+    </p>
+    <p>
+        <label asp-for="Repairs">Repairs:</label><br />
+        <input asp-for="Repairs" /><br />
+        <span asp-validation-for="Repairs"></span>
+    </p>
+    <p>
+        <label asp-for="RepairCost">Repair Cost:</label><br />
+        <input asp-for="RepairCost" /><br />
+        <span asp-validation-for="RepairCost"></span>
+    </p>
+    <p>
+        <label asp-for="LotDate">Lot Date:</label><br />
+        <input asp-for="LotDate" class="datepicker" value="@Model.LotDate?.ToString("yyyy/MM/dd")" /><br />
+        <span asp-validation-for="LotDate"></span>
+    </p>
+    <p>
+        <label asp-for="SaleDate">Sale Date:</label><br />
+        <input asp-for="SaleDate" class="datepicker" value="@Model.SaleDate?.ToString("yyyy/MM/dd")" /><br />
+        <span asp-validation-for="SaleDate"></span>
+    </p>
+    <div asp-validation-summary="ModelOnly"></div>
+    <input type="submit" value="Add Car" />
+</form>
+
+@section Styles {
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/datepicker.css" />
+}
+
+@section Scripts {
+    <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
+}
