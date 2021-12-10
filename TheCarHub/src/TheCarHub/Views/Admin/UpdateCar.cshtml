@@ -1,4 +1,4 @@
-﻿@model TheCarHub.ICar
+﻿@model TheCarHub.CarPoco
 @inject TheCarHub.ISystemClock Clock
 @{
     ViewBag.Title = "Update Car";
@@ -8,7 +8,7 @@
     <h1 class="display-4">@ViewBag.Title</h1>
     <p>Update a car in the dealership's inventory</p>
 </div>
-<form method="post" asp-antiforgery="true">
+<form method="post" enctype="multipart/form-data" asp-antiforgery="true">
     <input type="hidden" name="@nameof(Model.Id)" value="@Model!.Id" />
     <p>
         <label asp-for="Vin">VIN:</label><br />
@@ -69,6 +69,10 @@
         <label asp-for="SaleDate">Sale Date:</label><br />
         <input asp-for="SaleDate" class="datepicker" value="@Model.SaleDate?.ToString("yyyy/MM/dd")" /><br />
         <span asp-validation-for="SaleDate"></span>
+    </p>
+    <p>
+        <label for="Picture">Picture:</label><br />
+        <input type="file" id="Picture" name="Picture" accept="image/png, image/jpeg" /><br />
     </p>
     <div asp-validation-summary="ModelOnly"></div>
     <input type="submit" value="Update Car" />

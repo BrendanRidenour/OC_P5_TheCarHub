@@ -20,6 +20,10 @@
         public DateTimeOffset? LotDate { get; set; }
         public DateTimeOffset? SaleDate { get; set; }
 
+        public string? PictureUrl { get; set; }
+
+        public override string ToString() => $"{this.Year} {this.Make} {this.Model}";
+
         private static DateTimeOffset GetToday()
         {
             var today = DateTimeOffset.UtcNow;

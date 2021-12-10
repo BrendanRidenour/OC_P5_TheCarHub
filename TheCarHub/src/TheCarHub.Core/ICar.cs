@@ -21,5 +21,7 @@
         DateTimeOffset? SaleDate { get; }
 
         double SellingPrice => this.PurchasePrice + this.RepairCost + 500;
+
+        string? PictureUrl { get; }
     }
 }

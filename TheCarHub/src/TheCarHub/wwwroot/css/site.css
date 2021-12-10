@@ -33,6 +33,10 @@ table td {
     padding-right: 1rem;
 }
 
+table img {
+    width: 150px;
+}
+
 .field-validation-error {
     color: red;
 }

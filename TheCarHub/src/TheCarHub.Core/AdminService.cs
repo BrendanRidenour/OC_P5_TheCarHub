@@ -1,4 +1,6 @@
-﻿namespace TheCarHub
+﻿using Microsoft.AspNetCore.Http;
+
+namespace TheCarHub
 {
     public class AdminService : DealershipService, IAdminService
     {
@@ -20,10 +22,10 @@
         public Task<ICar?> GetCar(Guid id) =>
             this.CarRepository.Retrieve(id);
 
-        public Task CreateCar(ICar car) =>
+        public Task CreateCar(ICar car, IFormFile picture) =>
             this.CarRepository.Create(car);
 
-        public Task UpdateCar(ICar car) =>
+        public Task UpdateCar(ICar car, IFormFile? picture) =>
             this.CarRepository.Update(car);
 
         public Task DeleteCar(Guid id) =>

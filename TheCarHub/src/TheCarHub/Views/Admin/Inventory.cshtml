@@ -10,6 +10,7 @@
 <table>
     <thead>
         <tr>
+            <td></td>
             <td>VIN</td>
             <td>Year</td>
             <td>Make</td>
@@ -23,12 +24,23 @@
             <td>Sale Date</td>
             <td>Selling Price</td>
             <td></td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
         @foreach (var car in Model!.Cars)
         {
             <tr>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(car.PictureUrl))
+                    {
+                        <img src="@car.PictureUrl" alt="@car.ToString()" />
+                    }
+                    else
+                    {
+                        <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
+                    }
+                </td>
                 <td>@car.Vin</td>
                 <td>@car.Year</td>
                 <td>@car.Make</td>

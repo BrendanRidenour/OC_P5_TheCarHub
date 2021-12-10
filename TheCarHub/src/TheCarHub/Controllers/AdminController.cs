@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using TheCarHub.Models.Admin;
 
 namespace TheCarHub.Controllers
@@ -55,12 +56,13 @@ namespace TheCarHub.Controllers
         public IActionResult CreateCar() => View(new CarPoco());
 
         [HttpPost(Routes.CreateCar)]
-        public async Task<IActionResult> CreateCar(CarPoco car)
+        public async Task<IActionResult> CreateCar([FromForm]CarPoco car,
+            [FromForm]IFormFile? picture)
         {
             if (!ModelState.IsValid)
                 return View(car);
 
-            await this._adminService.CreateCar(car);
+            await this._adminService.CreateCar(car, picture);
 
             return Redirect(Routes.Inventory);
         }
@@ -70,19 +72,21 @@ namespace TheCarHub.Controllers
         {
             var car = await this._adminService.GetCar(id);
 
-            return car != null ? View(car) : Redirect(Routes.Inventory);
+            return car != null
+                ? View(car)
+                : Redirect(Routes.Inventory);
         }
 
         [HttpPost(Routes.UpdateCar)]
         public async Task<IActionResult> UpdateCar([FromRoute]Guid id,
-            [FromForm]CarPoco car)
+            [FromForm]CarPoco car, [FromForm]IFormFile? picture)
         {
             if (!ModelState.IsValid)
                 return View(car);
 
             car.Id = id;
 
-            await this._adminService.UpdateCar(car);
+            await this._adminService.UpdateCar(car, picture);
 
             return Redirect(Routes.Inventory);
         }
