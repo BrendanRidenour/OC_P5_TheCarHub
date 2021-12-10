@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor()
     .AddTransient<ISystemClock, SystemClock>()
     .AddTransient<IValidator<CarPoco>, CarPocoValidator>()
+    .AddSingleton(new SecureLoginCredentials(
+        username: builder.Configuration["Authentication:Username"],
+        password: builder.Configuration["Authentication:Password"]))
     .AddTransient<IAuthenticationService, CookieAuthenticationService>()
     .AddTransient<ICarRepository, InMemoryCarRepository>()
     .AddTransient<IDealershipService, DealershipService>()
