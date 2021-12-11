@@ -101,9 +101,14 @@ namespace TheCarHub
         {
             var (partitionKey, rowKey) = CarTableEntity.CreateKeys(id);
 
-            var client = await this.CreateTableClient().ConfigureAwait(false);
+            var tables = await this.CreateTableClient().ConfigureAwait(false);
 
-            await client.DeleteEntityAsync(partitionKey, rowKey)
+            await tables.DeleteEntityAsync(partitionKey, rowKey)
+                .ConfigureAwait(false);
+
+            var blobs = await this.CreateBlobClient(id).ConfigureAwait(false);
+
+            await blobs.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots)
                 .ConfigureAwait(false);
         }
 
