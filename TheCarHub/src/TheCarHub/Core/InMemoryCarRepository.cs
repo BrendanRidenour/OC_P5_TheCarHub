@@ -17,6 +17,7 @@
                 RepairCost = 7600,
                 LotDate = BuildDate(2019, 4, 7),
                 SaleDate = BuildDate(2019, 4, 8),
+                PictureUrl = "https://upload.wikimedia.org/wikipedia/commons/9/95/Mazda_Roadster_%28MX-5%29_by_Negawa_Bridge_%28cropped%29.jpg"
             },
             new CarPoco()
             {

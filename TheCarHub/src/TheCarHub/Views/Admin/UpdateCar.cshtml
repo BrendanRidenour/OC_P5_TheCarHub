@@ -70,18 +70,34 @@
         <input asp-for="SaleDate" class="datepicker" value="@Model.SaleDate?.ToString("yyyy/MM/dd")" /><br />
         <span asp-validation-for="SaleDate"></span>
     </p>
+    @{
+        var pictureLabel = "Picture";
+    }
     <p>
-        <label for="Picture">Picture:</label><br />
-        <input type="file" id="Picture" name="Picture" accept="image/png, image/jpeg" /><br />
+        @if (!string.IsNullOrWhiteSpace(Model.PictureUrl))
+        {
+            <text>
+                Current Picture:<br />
+                <img src="@Model.PictureUrl" alt="@Model.ToString()" />
+                <br />
+            </text>
+
+            pictureLabel = "Change Picture";
+        }
+
+        <label for="Picture">@pictureLabel:</label><br />
+        <input type="file" id="Picture" name="Picture" accept="image/png, image/jpeg" />
     </p>
     <div asp-validation-summary="ModelOnly"></div>
-    <input type="submit" value="Update Car" />
+    <p>
+        <input type="submit" value="Update Car" />
+    </p>
 </form>
 
 @section Styles {
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/datepicker.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/datepicker.css" />
 }
 
 @section Scripts {
-    <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
 }
