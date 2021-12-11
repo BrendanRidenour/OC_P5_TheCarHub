@@ -32,9 +32,9 @@
         {
             <tr>
                 <td>
-                    @if (!string.IsNullOrWhiteSpace(car.PictureUrl))
+                    @if (car.PictureUri is not null)
                     {
-                        <img src="@car.PictureUrl" alt="@car.ToString()" />
+                        <img src="@car.PictureUri" alt="@car.ToString()" />
                     }
                     else
                     {
@@ -59,6 +59,13 @@
                 <td>
                     <a href="~/admin/delete/@car.Id">Delete</a>
                 </td>
+            </tr>
+        }
+
+        @if (!Model.Cars.Any())
+        {
+            <tr>
+                <td colspan="10">There are currently no cars in your inventory.</td>
             </tr>
         }
     </tbody>

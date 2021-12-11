@@ -2,6 +2,31 @@
 {
     public class CarPoco : ICar
     {
+        public CarPoco() { }
+
+        public CarPoco(ICar car)
+            : base()
+        {
+            if (car is null)
+            {
+                throw new ArgumentNullException(nameof(car));
+            }
+
+            this.Id = car.Id;
+            this.Vin = car.Vin;
+            this.Year = car.Year;
+            this.Make = car.Make;
+            this.Model = car.Model;
+            this.Trim = car.Trim;
+            this.PurchaseDate = car.PurchaseDate;
+            this.PurchasePrice = car.PurchasePrice;
+            this.Repairs = car.Repairs;
+            this.RepairCost = car.RepairCost;
+            this.LotDate = car.LotDate;
+            this.SaleDate = car.SaleDate;
+            this.PictureUri = car.PictureUri;
+        }
+
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public string? Vin { get; set; }
@@ -20,7 +45,7 @@
         public DateTimeOffset? LotDate { get; set; }
         public DateTimeOffset? SaleDate { get; set; }
 
-        public string? PictureUrl { get; set; }
+        public string? PictureUri { get; set; }
 
         public override string ToString() => $"{this.Year} {this.Make} {this.Model}";
 

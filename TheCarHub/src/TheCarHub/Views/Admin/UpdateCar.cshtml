@@ -74,11 +74,11 @@
         var pictureLabel = "Picture";
     }
     <p>
-        @if (!string.IsNullOrWhiteSpace(Model.PictureUrl))
+        @if (Model.PictureUri is not null)
         {
             <text>
                 Current Picture:<br />
-                <img src="@Model.PictureUrl" alt="@Model.ToString()" />
+                <img src="@Model.PictureUri" alt="@Model.ToString()" />
                 <br />
             </text>
 
@@ -95,9 +95,9 @@
 </form>
 
 @section Styles {
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/datepicker.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-datepicker3.min.css" />
 }
 
 @section Scripts {
-<script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.min.js"></script>
 }

@@ -13,7 +13,8 @@ builder.Services.AddHttpContextAccessor()
         username: builder.Configuration["Authentication:Username"],
         password: builder.Configuration["Authentication:Password"]))
     .AddTransient<IAuthenticationService, CookieAuthenticationService>()
-    .AddTransient<ICarRepository, InMemoryCarRepository>()
+    .AddSingleton<ICarRepository>(new AzureCarRepository(
+        builder.Configuration["Azure:StorageAccountConnectionString"]))
     .AddTransient<IDealershipService, DealershipService>()
     .AddTransient<IAdminService, AdminService>();
 

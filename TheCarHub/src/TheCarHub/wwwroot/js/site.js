@@ -4,6 +4,7 @@
     if ($dates.length > 0) {
         $dates.datepicker({
             format: 'yyyy/mm/dd',
+            clearBtn: true,
             autoclose: true,
         });
     }

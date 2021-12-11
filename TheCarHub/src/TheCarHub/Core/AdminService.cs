@@ -22,11 +22,11 @@ namespace TheCarHub
         public Task<ICar?> GetCar(Guid id) =>
             this.CarRepository.Retrieve(id);
 
-        public Task CreateCar(ICar car, IFormFile picture) =>
-            this.CarRepository.Create(car);
+        public Task CreateCar(ICar car, IFormFile? picture) =>
+            this.CarRepository.Create(car, picture);
 
         public Task UpdateCar(ICar car, IFormFile? picture) =>
-            this.CarRepository.Update(car);
+            this.CarRepository.Update(car, picture);
 
         public Task DeleteCar(Guid id) =>
             this.CarRepository.Delete(id);

@@ -22,6 +22,6 @@
 
         double SellingPrice => this.PurchasePrice + this.RepairCost + 500;
 
-        string? PictureUrl { get; }
+        string? PictureUri { get; }
     }
 }

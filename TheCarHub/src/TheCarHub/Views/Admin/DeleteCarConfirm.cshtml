@@ -9,11 +9,11 @@
 </div>
 <form method="post" asp-controller="Admin" asp-action="DeleteCar" asp-antiforgery="true">
     <input type="hidden" name="@nameof(Model.Id)" value="@Model!.Id" />
-    @if (!string.IsNullOrWhiteSpace(Model.PictureUrl))
+    @if (Model.PictureUri is not null)
     {
         <p>
             Picture:<br />
-            <img src="@Model.PictureUrl" alt="@Model.ToString()" />
+            <img src="@Model.PictureUri" alt="@Model.ToString()" />
         </p>
     }
     @if (!string.IsNullOrWhiteSpace(Model.Vin))

@@ -1,48 +1,62 @@
 ﻿@model TheCarHub.Models.Main.InventoryViewModel
+@inject TheCarHub.ISystemClock Clock
 @{
     ViewBag.Title = "Inventory";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Scan Our Inventory</h1>
-    <p>Have a look at everything on our lot (and what's coming soon)</p>
-</div>
-<table>
-    <thead>
-        <tr>
-            <td></td>
-            <td>Year</td>
-            <td>Make</td>
-            <td>Model</td>
-            <td>Trim</td>
-            <td>Price</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var car in Model!.Cars)
-        {
+@if (Model!.Cars.Where(car => car.LotDate is not null).Any())
+{
+    <div class="text-center">
+        <h1 class="display-4">Scan Our Inventory</h1>
+        <p>Have a look at everything on our lot, then drive away in the car of your dreams.</p>
+    </div>
+    <table>
+        <thead>
             <tr>
-                <td>
-                    @if (!string.IsNullOrWhiteSpace(car.PictureUrl))
-                    {
-                        <img src="@car.PictureUrl" alt="@car.ToString()" />
-                    }
-                    else
-                    {
-                        <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
-                    }
-                </td>
-                <td>@car.Year</td>
-                <td>@car.Make</td>
-                <td>@car.Model</td>
-                <td>@car.Trim</td>
-                <td>@car.SellingPrice.ToString("C")</td>
-                @if (!car.LotDate.HasValue)
-                {
-                    <td>Coming soon&hellip;</td>
-                }
+                <td></td>
+                <td>Year</td>
+                <td>Make</td>
+                <td>Model</td>
+                <td>Trim</td>
+                <td>Price</td>
+                <td></td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var car in Model.Cars)
+            {
+                if (car.LotDate is null)
+                    continue;
+
+                <tr>
+                    <td>
+                        @if (car.PictureUri is not null)
+                        {
+                            <img src="@car.PictureUri" alt="@car.ToString()" />
+                        }
+                        else
+                        {
+                            <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
+                        }
+                    </td>
+                    <td>@car.Year</td>
+                    <td>@car.Make</td>
+                    <td>@car.Model</td>
+                    <td>@car.Trim</td>
+                    <td>@car.SellingPrice.ToString("C")</td>
+                    @if (car.LotDate.Value > Clock.UtcNow)
+                    {
+                        <td>Coming soon&hellip;</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">We're Sold Out</h1>
+        <p>The good news is, we get more cars all the time. Please, check back soon&hellip;</p>
+    </div>
+}
