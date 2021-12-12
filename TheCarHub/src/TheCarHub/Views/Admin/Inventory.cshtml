@@ -21,8 +21,8 @@
             <td>Repairs</td>
             <td>Repair Cost</td>
             <td>Lot Date</td>
-            <td>Sale Date</td>
             <td>Selling Price</td>
+            <td>Sale Date</td>
             <td></td>
             <td></td>
         </tr>
@@ -51,8 +51,8 @@
                 <td>@car.Repairs</td>
                 <td>@car.RepairCost.ToString("C")</td>
                 <td>@car.LotDate?.ToString("MMM d, yyyy")</td>
-                <td>@car.SaleDate?.ToString("MMM d, yyyy")</td>
                 <td>@car.SellingPrice.ToString("C")</td>
+                <td>@car.SaleDate?.ToString("MMM d, yyyy")</td>
                 <td>
                     <a href="~/admin/update/@car.Id">Update</a>
                 </td>
