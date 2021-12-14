@@ -7,8 +7,8 @@
         public InventoryViewModel(IReadOnlyList<ICar> inventory)
         {
             this.Cars = (inventory ?? new List<ICar>())
-                .OrderBy(car => car.PurchaseDate)
-                .ThenBy(car => car.LotDate)
+                .OrderByDescending(car => car.PurchaseDate)
+                .ThenByDescending(car => car.LotDate)
                 .ToList()
                 .AsReadOnly();
         }

@@ -15,11 +15,11 @@ namespace TheCarHub.Controllers
         }
 
         [HttpGet(Routes.Inventory)]
-        public async Task<IActionResult> Inventory()
+        public async Task<IActionResult> Inventory([FromServices]ISystemClock clock)
         {
             var inventory = await this._dealershipService.GetInventory();
 
-            return View(new InventoryViewModel(inventory));
+            return View(new InventoryViewModel(inventory, clock));
         }
 
         [HttpGet(Routes.Error)]

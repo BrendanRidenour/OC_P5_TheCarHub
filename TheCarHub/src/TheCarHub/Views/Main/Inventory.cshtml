@@ -4,46 +4,39 @@
     ViewBag.Title = "Inventory";
 }
 
-@if (Model!.Cars.Where(car => car.LotDate is not null).Any())
-{
-    <div class="text-center">
-        <h1 class="display-4">Scan Our Inventory</h1>
-        <p>Have a look at everything on our lot, then drive away in the car of your dreams.</p>
-    </div>
-    <section class="cars-container">
-        @foreach (var car in Model.Cars)
-        {
-            if (car.LotDate is null)
-                continue;
+<div class="text-center">
+    <h1 class="display-4">Browse Our Inventory</h1>
+    <p>Have a look at everything on our lot, then drive away in the car of your dreams.</p>
+</div>
+<section class="cars-container">
+    @foreach (var car in Model!.Cars)
+    {
+        @*var articleClasses = car.LotDate.Value > Clock.UtcNow
+            ? "coming-soon" : string.Empty;*@
 
-            var articleClasses = car.LotDate.Value > Clock.UtcNow
-            ? "coming-soon" : string.Empty;
+        var articleClasses = car.SaleDate.HasValue
+            ? "car-sold"
+            : !car.LotDate.HasValue || car.LotDate > Clock.UtcNow
+            ? "car-coming-soon"
+            : string.Empty;
 
-            <article class="@articleClasses">
-                @if (car.PictureUri is not null)
-                {
-                    <img src="@car.PictureUri" alt="@car.ToString()" />
-                }
-                else
-                {
-                    <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
-                }
-                <header>
-                    <h4>@car.ToString()</h4>
-                    <p>
-                        @car.Trim
-                        &lowast;
-                        @car.SellingPrice.ToString("C")
-                    </p>
-                </header>
-            </article>
-        }
-    </section>
-}
-else
-{
-    <div class="text-center">
-        <h1 class="display-4">We're Sold Out</h1>
-        <p>The good news is, we get more cars all the time. Please, check back soon&hellip;</p>
-    </div>
-}
+        <article class="@articleClasses">
+            @if (car.PictureUri is not null)
+            {
+                <img src="@car.PictureUri" alt="@car.ToString()" />
+            }
+            else
+            {
+                <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
+            }
+            <header>
+                <h4>@car.ToString()</h4>
+                <p>
+                    @car.Trim
+                    &lowast;
+                    @car.SellingPrice.ToString("C")
+                </p>
+            </header>
+        </article>
+    }
+</section>

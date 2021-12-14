@@ -4,11 +4,11 @@
     {
         public IReadOnlyList<ICar> Cars { get; }
 
-        public InventoryViewModel(IReadOnlyList<ICar> inventory)
+        public InventoryViewModel(IReadOnlyList<ICar> inventory, ISystemClock clock)
         {
             this.Cars = (inventory ?? new List<ICar>())
-                .Where(car => !car.SaleDate.HasValue)
-                .OrderByDescending(car => car.LotDate)
+                .OrderByDescending(c => c.SaleDate == null)
+                .ThenBy(c => c.LotDate == null || c.LotDate > clock.UtcNow)
                 .ToList()
                 .AsReadOnly();
         }
