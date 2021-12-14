@@ -166,7 +166,7 @@ namespace TheCarHub
         private class CarTableEntity : CarPoco, ITableEntity
         {
             public string PartitionKey { get; set; } = CreatePartitionKey();
-            public string RowKey { get; set; }
+            public string RowKey { get; set; } = String.Empty;
             public DateTimeOffset? Timestamp { get; set; }
             public ETag ETag { get; set; } = new ETag("*");
 
