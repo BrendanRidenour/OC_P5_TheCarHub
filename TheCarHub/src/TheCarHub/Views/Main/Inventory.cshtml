@@ -1,24 +1,39 @@
 ﻿@model TheCarHub.Models.Main.InventoryViewModel
 @inject TheCarHub.ISystemClock Clock
 @{
-    ViewBag.Title = "Inventory";
+    ViewBag.Title = "Find Your Dream Car";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Browse Our Inventory</h1>
-    <p>Have a look at everything on our lot, then drive away in the car of your dreams.</p>
-</div>
-<section class="cars-container">
+<section class="hero-banner bg-light py-5">
+    <div class="container">
+        <div class="row row align-items-center">
+            <div class="col-lg-5 offset-lg-1 order-lg-1">
+                <img src="~/images/car-stock.jpg" class="img-fluid" alt="Web Development">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="mt-3">Welcome to The Car Hub</h1>
+                <p class="lead text-secondary my-5">
+                    No games. No bait-and-switch. No hard sell. My name is Eddie and
+                    I hunt all over the world for the best used cars. Then, I make
+                    them new again.
+                    <strong>
+                        Walk to The Car Hub,
+                        then drive home in the car of your dreams
+                    </strong>.
+                </p>
+                <a href="#inventory" class="btn btn-outline-secondary btn-lg border">Find Your Dream Car</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="inventory" class="cars-container">
     @foreach (var car in Model!.Cars)
     {
-        @*var articleClasses = car.LotDate.Value > Clock.UtcNow
-            ? "coming-soon" : string.Empty;*@
-
         var articleClasses = car.SaleDate.HasValue
-            ? "car-sold"
-            : !car.LotDate.HasValue || car.LotDate > Clock.UtcNow
-            ? "car-coming-soon"
-            : string.Empty;
+        ? "car-sold"
+        : !car.LotDate.HasValue || car.LotDate > Clock.UtcNow
+        ? "car-coming-soon"
+        : string.Empty;
 
         <article class="@articleClasses">
             @if (car.PictureUri is not null)
