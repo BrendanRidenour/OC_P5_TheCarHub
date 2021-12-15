@@ -24,6 +24,7 @@
             this.RepairCost = car.RepairCost;
             this.LotDate = car.LotDate;
             this.SaleDate = car.SaleDate;
+            this.Profit = car.Profit;
             this.PictureUri = car.PictureUri;
         }
 
@@ -44,6 +45,8 @@
 
         public DateTimeOffset? LotDate { get; set; }
         public DateTimeOffset? SaleDate { get; set; }
+
+        public double Profit { get; set; } = 500;
 
         public string? PictureUri { get; set; }
 

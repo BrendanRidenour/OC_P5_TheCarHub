@@ -20,7 +20,9 @@
         DateTimeOffset? LotDate { get; }
         DateTimeOffset? SaleDate { get; }
 
-        double SellingPrice => this.PurchasePrice + this.RepairCost + 500;
+        double Profit { get; }
+
+        double SellingPrice => this.PurchasePrice + this.RepairCost + this.Profit;
 
         string? PictureUri { get; }
     }

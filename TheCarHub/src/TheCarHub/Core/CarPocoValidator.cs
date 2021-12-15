@@ -43,11 +43,24 @@ namespace TheCarHub
                 {
                     if (!date.HasValue) return;
 
+                    if (!context.InstanceToValidate.LotDate.HasValue)
+                    {
+                        context.AddFailure("In order to set a Sale Date, you must also set a Lot Date.");
+                    }
+
+                    if (date.Value < context.InstanceToValidate.PurchaseDate)
+                    {
+                        context.AddFailure("The Sale Date cannot come before the Purchase Date.");
+                    }
+
                     if (date.Value < context.InstanceToValidate.LotDate)
                     {
                         context.AddFailure("The Sale Date cannot come before the Lot Date.");
                     }
                 });
+
+            RuleFor(m => m.Profit)
+                .GreaterThanOrEqualTo(0);
         }
     }
 }

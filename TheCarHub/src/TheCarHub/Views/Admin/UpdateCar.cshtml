@@ -70,6 +70,11 @@
         <input asp-for="SaleDate" class="datepicker" value="@Model.SaleDate?.ToString("yyyy/MM/dd")" /><br />
         <span asp-validation-for="SaleDate"></span>
     </p>
+    <p>
+        <label asp-for="Profit">Profit:</label><br />
+        <input asp-for="Profit" /><br />
+        <span asp-validation-for="Profit"></span>
+    </p>
     @{
         var pictureLabel = "Picture";
     }

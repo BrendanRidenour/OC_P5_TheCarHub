@@ -26,7 +26,8 @@
         </div>
     </div>
 </section>
-<section id="inventory" class="cars-container">
+<div id="inventory"><h3>Browse Our Inventory &gt;</h3></div>
+<section class="cars-container">
     @foreach (var car in Model!.Cars)
     {
         var articleClasses = car.SaleDate.HasValue
