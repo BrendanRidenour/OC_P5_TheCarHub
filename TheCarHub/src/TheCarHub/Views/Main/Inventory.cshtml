@@ -26,35 +26,61 @@
         </div>
     </div>
 </section>
-<div id="inventory"><h3>Browse Our Inventory &gt;</h3></div>
-<section class="cars-container">
-    @foreach (var car in Model!.Cars)
-    {
-        var articleClasses = car.SaleDate.HasValue
-        ? "car-sold"
-        : !car.LotDate.HasValue || car.LotDate > Clock.UtcNow
-        ? "car-coming-soon"
-        : string.Empty;
-
-        <article class="@articleClasses">
-            @if (car.PictureUri is not null)
-            {
-                <img src="@car.PictureUri" alt="@car.ToString()" />
-            }
-            else
-            {
-                <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
-            }
+<section id="inventory">
+    <h3>Browse Our Inventory &gt;</h3>
+    <div class="cars-container">
+        @*<article>
+            <div id="test-carousel" class="carousel slide" data-ride="carousel" data-interval="2000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="https://thoughthavendev.blob.core.windows.net/thecarhub/car-pic-1541D059-3542-45CC-B2C5-CF0E7D611FFA" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="https://thoughthavendev.blob.core.windows.net/thecarhub/car-pic-19C1D7CD-E6F9-4A27-8DD7-42143539820A" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="https://thoughthavendev.blob.core.windows.net/thecarhub/car-pic-3AADA470-7A9F-4DC3-82F3-ACDA824F50E1" alt="Third slide">
+                    </div>
+                </div>
+            </div>
             <header>
-                <h4>@car.ToString()</h4>
+                <h4>2020 Tesla Model Y</h4>
                 <p>
-                    @car.Trim
+                    XYZ
                     &lowast;
-                    @car.SellingPrice.ToString("C")
+                    $100,000.00
                 </p>
             </header>
-        </article>
-    }
+        </article>*@
+
+        @foreach (var car in Model!.Cars)
+        {
+            var articleClasses = car.SaleDate.HasValue
+            ? "car-sold"
+            : !car.LotDate.HasValue || car.LotDate > Clock.UtcNow
+            ? "car-coming-soon"
+            : string.Empty;
+
+            <article class="@articleClasses">
+                @if (car.PictureUri is not null)
+                {
+                    <img src="@car.PictureUri" alt="@car.ToString()" />
+                }
+                else
+                {
+                    <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
+                }
+                <header>
+                    <h4>@car.ToString()</h4>
+                    <p>
+                        @car.Trim
+                        &lowast;
+                        @car.SellingPrice.ToString("C")
+                    </p>
+                </header>
+            </article>
+        }
+    </div>
 </section>
 <section id="contact-us" class="p-5 text-center bg-light">
     <h1 class="mb-3">Find Something You Like?</h1>

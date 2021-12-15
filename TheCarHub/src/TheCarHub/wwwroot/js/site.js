@@ -8,4 +8,10 @@
             autoclose: true,
         });
     }
+
+    var $carousels = $('.carousel');
+
+    if ($carousels) {
+        $carousels.carousel();
+    }
 });
