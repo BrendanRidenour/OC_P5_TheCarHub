@@ -60,6 +60,8 @@ img {
 .hero-banner {
     margin-top: 3rem;
     margin-bottom: 5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
     .hero-banner h1 {
@@ -120,16 +122,42 @@ img.img-fluid {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        position: relative;
+        overflow: hidden;
     }
 
         .cars-container article:hover {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
 
-        .cars-container article.car-sold {
+        .cars-container article.car-coming-soon:after {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: -10%;
+            right: -10%;
+            padding: .25rem;
+            background-color: green;
+            color: white;
+            content: "Coming Soon...";
+            text-align: center;
+            font-weight: bold;
         }
 
-        .cars-container article.car-coming-soon {
+        .cars-container article.car-sold:after {
+            display: block;
+            position: absolute;
+            top: 25%;
+            left: -25%;
+            right: -25%;
+            padding: .5rem;
+            background-color: red;
+            color: white;
+            content: "SOLD";
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            transform: rotate(-33deg);
         }
 
         .cars-container article img {
