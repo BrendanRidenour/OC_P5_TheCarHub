@@ -37,6 +37,10 @@ table {
         border-bottom-width: 1px;
     }
 
+    table tbody tr:last-of-type {
+        border-bottom-width: 0;
+    }
+
     table img {
         margin: 1rem 0;
     }
@@ -142,3 +146,7 @@ img.img-fluid {
             .cars-container article header p:last-of-type {
                 margin-bottom: 0;
             }
+
+#contact-us {
+    margin-top: 5rem;
+}
