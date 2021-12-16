@@ -25,7 +25,7 @@
             this.LotDate = car.LotDate;
             this.SaleDate = car.SaleDate;
             this.Profit = car.Profit;
-            this.PictureUri = car.PictureUri;
+            //this.PictureUris = car.PictureUris;
         }
 
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -48,7 +48,7 @@
 
         public double Profit { get; set; } = 500;
 
-        public string? PictureUri { get; set; }
+        //public IReadOnlyList<string> PictureUris { get; set; } = new List<string>();
 
         public override string ToString() => $"{this.Year} {this.Make} {this.Model}";
 

@@ -37,12 +37,13 @@ table {
         border-bottom-width: 1px;
     }
 
-    table tbody tr:last-of-type {
-        border-bottom-width: 0;
-    }
+        table tbody tr:last-of-type {
+            border-bottom-width: 0;
+        }
 
-    table img {
-        margin: 1rem 0;
+    table td.picture {
+        padding: 1rem 0;
+        text-align: center;
     }
 
 img {

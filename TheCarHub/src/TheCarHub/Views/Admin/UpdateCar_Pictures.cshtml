@@ -1,0 +1,28 @@
+﻿@model TheCarHub.CarPoco
+@{
+    ViewBag.Title = "Update Car Pictures";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.Title</h1>
+    <p>Update the pictures associated with this car</p>
+</div>
+<div>
+    <h2>@Model!.ToString()</h2>
+    <p>
+        This car currently has no pictures.
+    </p>
+    <div>
+        <form method="post" enctype="multipart/form-data"
+            asp-controller="Admin" asp-action="UpdateCar_PicturesAdd"
+            asp-antiforgery="true" asp-route-id="@Model.Id">
+            <p>
+                <label for="Picture">Add a Picture:</label><br />
+                <input type="file" id="Picture" name="Picture" accept="image/png, image/jpeg" />
+            </p>
+            <p>
+                <button>Upload Picture</button>
+            </p>
+        </form>
+    </div>
+</div>

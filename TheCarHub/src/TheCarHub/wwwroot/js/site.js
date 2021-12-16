@@ -12,6 +12,18 @@
     var $carousels = $('.carousel');
 
     if ($carousels) {
-        $carousels.carousel();
+        $carousels.each(function () {
+            var $this = $(this);
+            var timeout = Math.floor(Math.random() * 15000);
+
+            setTimeout(function () {
+                $this.carousel({
+                    interval: 7500,
+                    ride: "carousel",
+                    keyboard: false,
+                    wrap: true,
+                });
+            }, timeout);
+        });
     }
 });

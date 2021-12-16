@@ -24,6 +24,6 @@
 
         double SellingPrice => this.PurchasePrice + this.RepairCost + this.Profit;
 
-        string? PictureUri { get; }
+        //IReadOnlyList<string> PictureUris { get; }
     }
 }

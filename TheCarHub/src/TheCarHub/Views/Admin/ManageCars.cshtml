@@ -1,10 +1,10 @@
-﻿@model TheCarHub.Models.Admin.InventoryViewModel
+﻿@model TheCarHub.Models.Admin.ManageCarsViewModel
 @{
-    ViewBag.Title = "Inventory";
+    ViewBag.Title = "Manage Cars";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Admin Inventory</h1>
+    <h1 class="display-4">Manage Cars</h1>
     <p>Use this portal to create and update the cars in your dealership</p>
 </div>
 <table>
@@ -31,15 +31,18 @@
         @foreach (var car in Model!.Cars)
         {
             <tr>
-                <td>
-                    @if (car.PictureUri is not null)
-                    {
+                <td class="picture">
+                    @*@if (car.PictureUri is not null)
+                        {
                         <img src="@car.PictureUri" alt="@car.ToString()" />
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
                         <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
-                    }
+                        }*@
+                    <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
+                    @*<br />
+                    <a href="~/admin/update/@car.Id/pictures">Manage Pictures</a>*@
                 </td>
                 <td>@car.Vin</td>
                 <td>@car.Year</td>

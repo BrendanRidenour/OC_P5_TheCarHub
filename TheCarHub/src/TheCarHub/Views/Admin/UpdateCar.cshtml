@@ -75,7 +75,7 @@
         <input asp-for="Profit" /><br />
         <span asp-validation-for="Profit"></span>
     </p>
-    @{
+    @*@{
         var pictureLabel = "Picture";
     }
     <p>
@@ -92,7 +92,7 @@
 
         <label for="Picture">@pictureLabel:</label><br />
         <input type="file" id="Picture" name="Picture" accept="image/png, image/jpeg" />
-    </p>
+    </p>*@
     <div asp-validation-summary="ModelOnly"></div>
     <p>
         <input type="submit" value="Update Car" />

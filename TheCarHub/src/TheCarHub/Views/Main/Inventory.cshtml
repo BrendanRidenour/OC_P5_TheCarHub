@@ -30,7 +30,7 @@
     <h3>Browse Our Inventory &gt;</h3>
     <div class="cars-container">
         @*<article>
-            <div id="test-carousel" class="carousel slide" data-ride="carousel" data-interval="2000">
+            <div id="test-carousel-1" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img class="d-block w-100" src="https://thoughthavendev.blob.core.windows.net/thecarhub/car-pic-1541D059-3542-45CC-B2C5-CF0E7D611FFA" alt="First slide">
@@ -62,14 +62,15 @@
             : string.Empty;
 
             <article class="@articleClasses">
-                @if (car.PictureUri is not null)
-                {
+                @*@if (car.PictureUri is not null)
+                    {
                     <img src="@car.PictureUri" alt="@car.ToString()" />
-                }
-                else
-                {
+                    }
+                    else
+                    {
                     <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
-                }
+                    }*@
+                <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
                 <header>
                     <h4>@car.ToString()</h4>
                     <p>
@@ -101,12 +102,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Need info? Have questions? Ready to buy?<br />
+                Need info? Want a test drive? Ready to buy?<br />
                 Call anytime: <strong>(555) 555-5555</strong>
             </div>
             <div class="modal-footer">
-                @*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>*@
-                @*<button type="button" class="btn btn-primary">Close</button>*@
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
