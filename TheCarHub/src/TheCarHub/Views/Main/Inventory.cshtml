@@ -53,7 +53,9 @@
                 }
                 else
                 {
-                    <div id="car-carousel-@car.Id" class="carousel slide">
+                    var carouselId = $"car-carousel-{car.Id}";
+
+                    <div id="@carouselId" class="carousel slide">
                         <div class="carousel-inner">
                             @for (var i = 0; i < car.PictureUris.Count; i++)
                             {
@@ -67,10 +69,16 @@
 
                                 <div class="@pictureClasses">
                                     <img class="d-block w-100" src="@car.PictureUris[i]"
-                                         alt="@pictureAltText" />
+                             alt="@pictureAltText" />
                                 </div>
                             }
                         </div>
+                        <a class="carousel-control-prev" href="#@carouselId" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#@carouselId" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
                     </div>
                 }
                 <header>

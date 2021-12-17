@@ -28,6 +28,26 @@
 
             timeout += 2500;
         });
+
+        $(".carousel-control-prev").click(function (e) {
+            e.preventDefault();
+
+            var $self = $(this);
+
+            var carouselId = $self.attr('href');
+
+            $(carouselId).carousel('prev');
+        });
+
+        $(".carousel-control-next").click(function (e) {
+            e.preventDefault();
+
+            var $self = $(this);
+
+            var carouselId = $self.attr('href');
+
+            $(carouselId).carousel('next');
+        });
     }
 
     $("form.delete-picture").submit(function (e) {
