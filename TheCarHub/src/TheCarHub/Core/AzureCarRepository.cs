@@ -1,5 +1,8 @@
 ﻿using Azure;
 using Azure.Data.Tables;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using System.Text.Json;
 
 namespace TheCarHub
 {
@@ -25,7 +28,7 @@ namespace TheCarHub
                 foreach (var entity in page.Values)
                 {
                     if (entity is not null)
-                        cars.Add(entity);
+                        cars.Add(entity.ToCar());
                 }
             }
 
@@ -41,7 +44,7 @@ namespace TheCarHub
             var entity = await client.GetEntityAsync<CarTableEntity>(
                 partitionKey, rowKey).ConfigureAwait(false);
 
-            return entity?.Value;
+            return entity?.Value.ToCar();
         }
 
         public async Task Create(ICar car)
@@ -61,21 +64,82 @@ namespace TheCarHub
             if (car is null)
                 throw new ArgumentNullException(nameof(car));
 
+            var existingCar = await this.Retrieve(car.Id).ConfigureAwait(false);
+
+            if (existingCar is null)
+                throw new InvalidOperationException($"No car exists by this id: '{car.Id}'");
+
+            var updatePoco = new CarPoco(car, existingCar.PictureUris);
+
             var tables = await this.CreateTableClient().ConfigureAwait(false);
 
-            await tables.UpdateEntityAsync(new CarTableEntity(car),
+            await tables.UpdateEntityAsync(new CarTableEntity(updatePoco),
                 new ETag("*"), TableUpdateMode.Replace).ConfigureAwait(false);
         }
 
-        //public async Task AddPicture(Guid carId, IFormFile picture)
-        //{
-        //    var car = await this.Retrieve(carId).ConfigureAwait(false);
+        public async Task AddPicture(Guid carId, IFormFile picture)
+        {
+            if (picture is null)
+                throw new ArgumentNullException(nameof(picture));
 
-        //    if (car is null)
-        //        throw new InvalidOperationException($"No car exists by this id: '{carId}'");
+            var car = await this.Retrieve(carId).ConfigureAwait(false);
 
-        //    throw new NotImplementedException();
-        //}
+            if (car is null)
+                throw new InvalidOperationException($"No car exists by this id: '{carId}'");
+
+            var blob = await this.CreateBlobClient(carId).ConfigureAwait(false);
+
+            using var stream = picture.OpenReadStream();
+
+            await blob.UploadAsync(
+                stream,
+                new BlobHttpHeaders()
+                {
+                    ContentType = picture.ContentType,
+                }).ConfigureAwait(false);
+
+            var pictureUris = new List<string>(car.PictureUris)
+            {
+                blob.Uri.ToString()
+            };
+
+            var updatePoco = new CarPoco(car, pictureUris);
+
+            var tables = await this.CreateTableClient().ConfigureAwait(false);
+
+            await tables.UpdateEntityAsync(new CarTableEntity(updatePoco),
+                new ETag("*"), TableUpdateMode.Replace).ConfigureAwait(false);
+        }
+
+        public async Task DeletePicture(Guid carId, string pictureUri)
+        {
+            if (pictureUri is null)
+                throw new ArgumentNullException(nameof(pictureUri));
+
+            var car = await this.Retrieve(carId).ConfigureAwait(false);
+
+            if (car is null)
+                throw new InvalidOperationException($"No car exists by this id: '{carId}'");
+
+            var container = await this.CreateBlobContainerClient(carId)
+                .ConfigureAwait(false);
+
+            var blobName = ParsePictureBlobName(pictureUri);
+
+            await container.DeleteBlobIfExistsAsync(blobName)
+                .ConfigureAwait(false);
+
+            var pictureUris = car.PictureUris.ToList();
+
+            pictureUris.RemoveAll(uri => uri.Equals(pictureUri, StringComparison.OrdinalIgnoreCase));
+
+            var updatePoco = new CarPoco(car, pictureUris);
+
+            var tables = await this.CreateTableClient().ConfigureAwait(false);
+
+            await tables.UpdateEntityAsync(new CarTableEntity(updatePoco),
+                new ETag("*"), TableUpdateMode.Replace).ConfigureAwait(false);
+        }
 
         public async Task Delete(Guid id)
         {
@@ -86,10 +150,10 @@ namespace TheCarHub
             await tables.DeleteEntityAsync(partitionKey, rowKey)
                 .ConfigureAwait(false);
 
-            //var blobs = await this.CreateBlobClient(id).ConfigureAwait(false);
+            var container = await this.CreateBlobContainerClient(id)
+                .ConfigureAwait(false);
 
-            //await blobs.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots)
-            //    .ConfigureAwait(false);
+            await container.DeleteIfExistsAsync().ConfigureAwait(false);
         }
 
         private static bool tableCreated = false;
@@ -107,7 +171,31 @@ namespace TheCarHub
             return client;
         }
 
-        private class CarTableEntity : CarPoco, ITableEntity
+        private async Task<BlobContainerClient> CreateBlobContainerClient(
+            Guid carId)
+        {
+            var container = new BlobContainerClient(this._connectionString,
+                $"thecarhub-car-{carId.ToString("N").ToLowerInvariant()}");
+
+            await container.CreateIfNotExistsAsync().ConfigureAwait(false);
+            await container.SetAccessPolicyAsync(PublicAccessType.Blob)
+                .ConfigureAwait(false);
+
+            return container;
+        }
+
+        private async Task<BlobClient> CreateBlobClient(Guid carId)
+        {
+            var container = await this.CreateBlobContainerClient(carId)
+                .ConfigureAwait(false);
+
+            return container.GetBlobClient($"car-pic-{Guid.NewGuid()}");
+        }
+
+        private static string ParsePictureBlobName(string pictureUri) =>
+            pictureUri[pictureUri.IndexOf("car-pic-")..];
+
+        private class CarTableEntity : CarPoco<string>, ITableEntity
         {
             public string PartitionKey { get; set; } = CreatePartitionKey();
             public string RowKey { get; set; } = string.Empty;
@@ -117,7 +205,7 @@ namespace TheCarHub
             public CarTableEntity() : base() { }
 
             public CarTableEntity(ICar car)
-                : base(car)
+                : base(car, JsonSerializer.Serialize(car.PictureUris))
             {
                 var (partitionKey, rowKey) = CreateKeys(car.Id);
 
@@ -125,45 +213,18 @@ namespace TheCarHub
                 this.RowKey = rowKey;
             }
 
+            public ICar ToCar()
+            {
+                var list = !string.IsNullOrWhiteSpace(this.PictureUris)
+                    ? JsonSerializer.Deserialize<List<string>>(this.PictureUris)!
+                    : new List<string>();
+
+                return new CarPoco(this, list);
+            }
+
             public static string CreatePartitionKey() => "CarInventory";
             public static (string partitionKey, string rowKey) CreateKeys(Guid carId) =>
                 (CreatePartitionKey(), carId.ToString().ToUpperInvariant());
         }
-
-        //private static bool blobContainerCreated = false;
-        //private async Task<BlobClient> CreateBlobClient(Guid carId)
-        //{
-        //    var container = new BlobContainerClient(this._connectionString,
-        //        "thecarhub");
-
-        //    if (!blobContainerCreated)
-        //    {
-        //        await container.CreateIfNotExistsAsync().ConfigureAwait(false);
-        //        await container.SetAccessPolicyAsync(PublicAccessType.Blob)
-        //            .ConfigureAwait(false);
-
-        //        blobContainerCreated = true;
-        //    }
-
-        //    return container.GetBlobClient(
-        //        $"car-pic-{carId.ToString().ToUpperInvariant()}");
-        //}
-
-        //private async Task UploadPicture(CarTableEntity entity, IFormFile picture)
-        //{
-        //    var blob = await this.CreateBlobClient(entity.Id).ConfigureAwait(false);
-
-        //    using var stream = picture.OpenReadStream();
-
-        //    await blob.UploadAsync(
-        //        stream,
-        //        new BlobHttpHeaders()
-        //        {
-        //            ContentType = picture.ContentType,
-        //        })
-        //        .ConfigureAwait(false);
-
-        //    entity.PictureUri = blob.Uri.ToString();
-        //}
     }
 }

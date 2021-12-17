@@ -10,7 +10,7 @@ namespace TheCarHub
                 throw new ArgumentNullException(nameof(clock));
 
             RuleFor(m => m.Year)
-                .InclusiveBetween(1990, clock.UtcNow.Year);
+                .InclusiveBetween(1990, clock.UtcNow.Year + 1);
 
             RuleFor(m => m.Make)
                 .NotEmpty();
@@ -23,6 +23,16 @@ namespace TheCarHub
 
             RuleFor(m => m.PurchasePrice)
                 .GreaterThanOrEqualTo(0);
+
+            RuleFor(m => m.Repairs)
+                .Custom((value, context) =>
+                {
+                    if (string.IsNullOrWhiteSpace(value) &&
+                        context.InstanceToValidate.RepairCost > 0)
+                    {
+                        context.AddFailure("You added some Repair Cost, so be sure to also add the list of Repairs.");
+                    }
+                });
 
             RuleFor(m => m.RepairCost)
                 .GreaterThanOrEqualTo(0);

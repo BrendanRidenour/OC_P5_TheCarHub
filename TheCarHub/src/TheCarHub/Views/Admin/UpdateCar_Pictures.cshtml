@@ -9,13 +9,33 @@
 </div>
 <div>
     <h2>@Model!.ToString()</h2>
-    <p>
-        This car currently has no pictures.
-    </p>
+    @if (Model.PictureUris.Any())
+    {
+        foreach (var pictureUri in Model.PictureUris)
+        {
+            <form class="delete-picture" method="post" asp-controller="Admin"
+                asp-action="UpdateCar_PicturesDelete"
+                asp-route-id="@Model.Id"
+                asp-antiforgery="true">
+                <p>
+                    <img src="@pictureUri" />
+                    <input type="hidden" name="pictureUri" value="@pictureUri" />
+                    <button>Delete</button>
+                </p>
+            </form>
+        }
+    }
+    else
+    {
+        <p>
+            This car currently has no pictures.
+        </p>
+    }
+
     <div>
         <form method="post" enctype="multipart/form-data"
-            asp-controller="Admin" asp-action="UpdateCar_PicturesAdd"
-            asp-antiforgery="true" asp-route-id="@Model.Id">
+              asp-controller="Admin" asp-action="UpdateCar_PicturesAdd"
+              asp-antiforgery="true" asp-route-id="@Model.Id">
             <p>
                 <label for="Picture">Add a Picture:</label><br />
                 <input type="file" id="Picture" name="Picture" accept="image/png, image/jpeg" />

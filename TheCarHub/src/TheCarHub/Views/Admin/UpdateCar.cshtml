@@ -18,7 +18,7 @@
     <p>
         <label asp-for="Year">Year:</label><br />
         <select asp-for="Year">
-            @for (var year = 1990; year <= Clock.UtcNow.Year; year++)
+            @for (var year = 1990; year <= Clock.UtcNow.Year + 1; year++)
             {
                 <option value="@year">@year</option>
             }

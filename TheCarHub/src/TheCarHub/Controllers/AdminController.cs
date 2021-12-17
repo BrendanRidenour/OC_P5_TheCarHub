@@ -104,13 +104,22 @@ namespace TheCarHub.Controllers
         public async Task<IActionResult> UpdateCar_PicturesAdd(
             [FromRoute]Guid id, [FromForm]IFormFile picture)
         {
+            if (picture is null)
+            {
+                return RedirectToAction(nameof(UpdateCar_Pictures), new { id });
+            }
+
+            await this._adminService.UpdateCar_AddPicture(id, picture);
+
             return RedirectToAction(nameof(UpdateCar_Pictures), new { id });
         }
 
         [HttpPost(Routes.UpdateCar_PicturesDelete)]
         public async Task<IActionResult> UpdateCar_PicturesDelete(
-            [FromRoute] Guid id, [FromForm]string pictureId)
+            [FromRoute] Guid id, [FromForm]string pictureUri)
         {
+            await this._adminService.UpdateCar_DeletePicture(id, pictureUri);
+
             return RedirectToAction(nameof(UpdateCar_Pictures), new { id });
         }
 

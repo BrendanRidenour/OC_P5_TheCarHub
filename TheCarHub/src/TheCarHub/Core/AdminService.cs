@@ -26,6 +26,12 @@
         public Task UpdateCar(ICar car) =>
             this.CarRepository.Update(car);
 
+        public Task UpdateCar_AddPicture(Guid carId, IFormFile picture) =>
+            this.CarRepository.AddPicture(carId, picture);
+
+        public Task UpdateCar_DeletePicture(Guid carId, string pictureUri) =>
+            this.CarRepository.DeletePicture(carId, pictureUri);
+
         public Task DeleteCar(Guid id) =>
             this.CarRepository.Delete(id);
     }

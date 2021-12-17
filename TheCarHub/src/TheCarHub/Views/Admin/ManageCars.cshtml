@@ -32,17 +32,16 @@
         {
             <tr>
                 <td class="picture">
-                    @*@if (car.PictureUri is not null)
-                        {
-                        <img src="@car.PictureUri" alt="@car.ToString()" />
-                        }
-                        else
-                        {
+                    @if (car.PictureUris.Any())
+                    {
+                        <img src="@car.PictureUris.First()" alt="@car.ToString()" />
+                    }
+                    else
+                    {
                         <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
-                        }*@
-                    <img src="~/images/car-placeholder.jpg" alt="@car.ToString()" />
-                    @*<br />
-                    <a href="~/admin/update/@car.Id/pictures">Manage Pictures</a>*@
+                    }
+                    <br />
+                    <a href="~/admin/update/@car.Id/pictures">Manage Pictures</a>
                 </td>
                 <td>@car.Vin</td>
                 <td>@car.Year</td>

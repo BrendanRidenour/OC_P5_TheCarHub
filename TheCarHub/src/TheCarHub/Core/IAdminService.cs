@@ -7,8 +7,8 @@
         Task<ICar?> GetCar(Guid id);
         Task CreateCar(ICar car);
         Task UpdateCar(ICar car);
-        //Task UpdateCar_AddPicture(Guid carId, IFormFile picture);
-        //Task UpdateCar_DeletePicture(Guid carId, string pictureUri);
+        Task UpdateCar_AddPicture(Guid carId, IFormFile picture);
+        Task UpdateCar_DeletePicture(Guid carId, string pictureUri);
         Task DeleteCar(Guid id);
     }
 }
