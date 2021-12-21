@@ -17,7 +17,7 @@
     </p>
     <p>
         <label asp-for="Year">Year:</label><br />
-        <select asp-for="Year">
+        <select asp-for="Year" required>
             @for (var year = 1990; year <= Clock.UtcNow.Year + 1; year++)
             {
                 <option value="@year">@year</option>
@@ -26,28 +26,28 @@
         <span asp-validation-for="Year"></span>
     </p>
     <p>
-        <label asp-for="Make">Make:</label><br />
-        <input asp-for="Make" /><br />
+        <label asp-for="Make">Make*:</label><br />
+        <input asp-for="Make" required /><br />
         <span asp-validation-for="Make"></span>
     </p>
     <p>
-        <label asp-for="Model">Model:</label><br />
-        <input asp-for="Model" /><br />
+        <label asp-for="Model">Model*:</label><br />
+        <input asp-for="Model" required /><br />
         <span asp-validation-for="Model"></span>
     </p>
     <p>
-        <label asp-for="Trim">Trim:</label><br />
-        <input asp-for="Trim" /><br />
+        <label asp-for="Trim">Trim*:</label><br />
+        <input asp-for="Trim" required /><br />
         <span asp-validation-for="Trim"></span>
     </p>
     <p>
         <label asp-for="PurchaseDate">Purchase Date:</label><br />
-        <input asp-for="PurchaseDate" class="datepicker" value="@Model.PurchaseDate.ToString("yyyy/MM/dd")" /><br />
+        <input asp-for="PurchaseDate" class="datepicker" value="@Model.PurchaseDate.ToString("yyyy/MM/dd")" required /><br />
         <span asp-validation-for="PurchaseDate"></span>
     </p>
     <p>
         <label asp-for="PurchasePrice">Purchase Price:</label><br />
-        <input asp-for="PurchasePrice" /><br />
+        <input asp-for="PurchasePrice" required /><br />
         <span asp-validation-for="PurchasePrice"></span>
     </p>
     <p>
@@ -57,7 +57,7 @@
     </p>
     <p>
         <label asp-for="RepairCost">Repair Cost:</label><br />
-        <input asp-for="RepairCost" /><br />
+        <input asp-for="RepairCost" required /><br />
         <span asp-validation-for="RepairCost"></span>
     </p>
     <p>
@@ -72,13 +72,9 @@
     </p>
     <p>
         <label asp-for="Profit">Profit:</label><br />
-        <input asp-for="Profit" /><br />
+        <input asp-for="Profit" required /><br />
         <span asp-validation-for="Profit"></span>
     </p>
-    @*<p>
-        <label for="Picture">Picture:</label><br />
-        <input type="file" id="Picture" name="Picture" accept="image/png, image/jpeg" />
-    </p>*@
     <div asp-validation-summary="ModelOnly"></div>
     <input type="submit" value="Add Car" />
 </form>
