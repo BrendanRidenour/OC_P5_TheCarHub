@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using TheCarHub.Models.Admin;
 
 namespace TheCarHub.Controllers
@@ -32,7 +33,8 @@ namespace TheCarHub.Controllers
                 return View();
             }
 
-            return Redirect(returnUrl ?? Routes.ManageCars);
+            return LocalRedirect(this.Url.IsLocalUrl(returnUrl)
+                ? returnUrl : Routes.ManageCars);
         }
 
         [HttpPost(Routes.Logout)]
